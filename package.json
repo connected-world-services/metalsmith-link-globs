@@ -1,0 +1,45 @@
+{
+    "name": "metalsmith-link-globs",
+    "version": "1.0.0",
+    "description": "Metalsmith plugin to repeat elements that use globs to match multiple files.",
+    "tags": [
+        "metalsmith",
+        "plugin",
+        "glob",
+        "link",
+        "a",
+        "href",
+        "script",
+        "img",
+        "src"
+    ],
+    "main": "lib/index.js",
+    "scripts": {
+        "test": "istanbul cover jasmine-node --captureExceptions lib spec && eslint lib spec && codecov",
+        "watch": "jasmine-node --autotest lib spec"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/connected-world-services/metalsmith-link-globs.git"
+    },
+    "author": "Tyler Akins",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/connected-world-services/metalsmith-link-globs/issues"
+    },
+    "homepage": "https://github.com/connected-world-services/metalsmith-link-globs#readme",
+    "dependencies": {
+        "cheerio": "~0.22.0",
+        "debug": "~2.6.1",
+        "minimatch": "~3.0.3",
+        "more-promises": "~1.0.0"
+    },
+    "devDependencies": {
+        "codecov": "~1.0.1",
+        "eslint": "~3.15.0",
+        "istanbul": "~0.4.5",
+        "jasmine-node": "~1.14.5",
+        "metalsmith": "~2.3.0",
+        "mock-require": "~2.0.1"
+    }
+}

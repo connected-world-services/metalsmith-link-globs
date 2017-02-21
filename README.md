@@ -1,0 +1,188 @@
+Metalsmith Link Globs
+=====================
+
+Repeat your `<script>`, `<link>`, `<img>` and `<a>` tags in your HTML by using a wildcard pattern in your `src=` or `href=` attributes.
+
+[![npm version][npm-badge]][npm-link]
+[![Build Status][travis-badge]][travis-link]
+[![Dependencies][dependencies-badge]][dependencies-link]
+[![Dev Dependencies][devdependencies-badge]][devdependencies-link]
+[![codecov.io][codecov-badge]][codecov-link]
+
+
+Overview
+--------
+
+When building HTML files that should link to a bunch of JavaScript files, one can hardcode each link, but that is tedious. It also doesn't work well when you want to use the same HTML but link to JavaScript that has not been concatenated nor minified. Why not just pull the list of files from Metalsmith?
+
+    <html>
+        <head>
+            <title> BEFORE THE PLUGIN </title>
+            <script src="third-party/angular.js"></script>
+            <script src="third-party/angular-ui.js"></script>
+            <script src="third-party/sha512.js"></script>
+            <script src="my-app.js"></script>
+            <script src="other-thing.js"></script>
+            <link rel="stylesheet" href="third-party/normalize.css">
+            <link rel="stylesheet" href="third-party/angular-ui.css">
+            <link rel="stylesheet" href="themes/clean-looks.css">
+            <link rel="stylesheet" href="themes/base.css">
+            <link rel="stylesheet" href="site.css">
+            <link rel="stylesheet" href="atomic.css">
+
+This can be reduced to the following:
+
+    <html>
+        <head>
+            <title> WITH THE PLUGIN </title>
+            <script src="third-party/**/*.js"></script>
+            <script src="!(third-party)**/*.js"></script>
+            <link rel="stylesheet" href="**/*.css">
+
+You would simply add this plugin to your `.use()` chain in Metalsmith.
+
+    var linkGlobs = require("metalsmith-link-globs");
+
+    // ...
+    .use(linkGlobs);
+
+If the default settings don't work for you, there are options you can use to tailor how the library works.
+
+
+Installation
+------------
+
+Use `npm` to install this package easily.
+
+    $ npm install --save metalsmith-link-globs
+
+Alternately you may edit your `package.json` and add this to your `dependencies` object:
+
+    {
+        ...
+        "dependencies": {
+            ...
+            "metalsmith-link-globs": "*"
+            ...
+        }
+        ...
+    }
+
+
+Usage
+-----
+
+Include this plugin the same as any other Metalsmith plugin. This first example shows how you would add it using a JSON configuration. It also shows the default settings. These are described later.
+
+    {
+        "plugins": {
+            "metalsmith-link-globs": {
+                "elementMatchOptions": {},
+                "encoding": "utf8",
+                "match": "**/*.html",
+                "matchOptions": {},
+                "nodes": [
+                    {
+                        "element": "a",
+                        "property": "href"
+                    },
+                    {
+                        "element": "img",
+                        "property": "src"
+                    },
+                    {
+                        "element": "link",
+                        "property": "href"
+                    },
+                    {
+                        "element": "script",
+                        "property": "src"
+                    }
+                ]
+            }
+        }
+    }
+
+This is a JavaScript example, which also includes a brief explanation of the options.
+
+    var linkGlobs = require("metalsmith-link-globs");
+
+    // Then in your list of plugins you use it.
+    .use(linkGlobs());
+
+    // Alternately, you can specify options. The values shown here are
+    // the defaults.
+    .use(linkGlobs({
+        // Minimatch options for the glob patterns that are used within
+        // elements.
+        "elementMatchOptions": {},
+
+        // How buffers are decoded into text and encoded again. Only
+        // affects the files being changed.
+        "encoding": "utf8",
+
+        // What files to target.
+        "match": "**/*.html",
+
+        // Minimatch options to select what files should be targeted.
+        "matchOptions": {},
+
+        // A list of HTML element and property names that should be
+        // processed.
+        "nodes": [
+            {
+                "element": "a",
+                "property": "href"
+            },
+            {
+                "element": "img",
+                "property": "src"
+            },
+            {
+                "element": "link",
+                "property": "href"
+            },
+            {
+                "element": "script",
+                "property": "src"
+            }
+        ]
+    });
+
+This uses [minimatch] to match files. The `.matchOptions` and `.elementMatchOptions` objects are just options passed directly to [minimatch].
+
+If you want to see what files are processed, what elements are found and the resulting list of matching files, enable debugging.
+
+    DEBUG=metalsmith-link-globs metalsmith
+
+
+Development
+-----------
+
+This uses Jasmine, Istanbul and ESLint for tests.
+
+    # Install all of the dependencies
+    npm install
+
+    # Run the tests
+    npm run test
+
+
+License
+-------
+
+This software is licensed under a [MIT license][LICENSE] that contains additional non-advertising and patent-related clauses.  [Read full license terms][LICENSE]
+
+
+[codecov-badge]: https://img.shields.io/codecov/c/github/connected-world-services/metalsmith-link-globs/master.svg
+[codecov-link]: https://codecov.io/github/connected-world-services/metalsmith-link-globs?branch=master
+[dependencies-badge]: https://img.shields.io/david/connected-world-services/metalsmith-link-globs.svg
+[dependencies-link]: https://david-dm.org/connected-world-services/metalsmith-link-globs
+[devdependencies-badge]: https://img.shields.io/david/dev/connected-world-services/metalsmith-link-globs.svg
+[devdependencies-link]: https://david-dm.org/connected-world-services/metalsmith-link-globs#info=devDependencies
+[LICENSE]: LICENSE.md
+[minimatch]: https://github.com/isaacs/minimatch
+[npm-badge]: https://img.shields.io/npm/v/metalsmith-link-globs.svg
+[npm-link]: https://npmjs.org/package/metalsmith-link-globs
+[travis-badge]: https://img.shields.io/travis/connected-world-services/metalsmith-link-globs/master.svg
+[travis-link]: http://travis-ci.org/connected-world-services/metalsmith-link-globs
