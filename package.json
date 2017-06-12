@@ -1,6 +1,6 @@
 {
     "name": "metalsmith-link-globs",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Metalsmith plugin to repeat elements that use globs to match multiple files.",
     "tags": [
         "metalsmith",
@@ -15,8 +15,10 @@
     ],
     "main": "lib/index.js",
     "scripts": {
-        "test": "istanbul cover jasmine-node --captureExceptions lib spec && eslint lib spec && codecov",
-        "watch": "jasmine-node --autotest lib spec"
+        "clean": "rm -rf coverage node_modules/ package-lock.json",
+        "readme": "jsdoc2md --template README.hbt --no-cache -f 'lib/**/*' --global-index-format grouped --param-list-format list > README.md",
+        "test": "istanbul cover jasmine && eslint lib spec && codecov",
+        "watch": "nodemon --exec jasmine"
     },
     "repository": {
         "type": "git",
@@ -29,17 +31,18 @@
     },
     "homepage": "https://github.com/connected-world-services/metalsmith-link-globs#readme",
     "dependencies": {
-        "cheerio": "~0.22.0",
-        "debug": "~2.6.1",
-        "minimatch": "~3.0.3",
-        "more-promises": "~1.0.0"
+        "cheerio": "^0.22.0",
+        "debug": "^2.6.8",
+        "metalsmith-plugin-kit": "^1.0.1"
     },
     "devDependencies": {
-        "codecov": "~1.0.1",
-        "eslint": "~3.15.0",
-        "istanbul": "~0.4.5",
-        "jasmine-node": "~1.14.5",
-        "metalsmith": "~2.3.0",
-        "mock-require": "~2.0.1"
+        "codecov": "^2.2.0",
+        "eslint": "^4.0.0",
+        "istanbul": "^0.4.5",
+        "jasmine": "^2.6.0",
+        "jasmine-test-helpers": "^1.2.3",
+        "nodemon": "^1.11.0",
+        "metalsmith": "^2.3.0",
+        "mock-require": "^2.0.2"
     }
 }
